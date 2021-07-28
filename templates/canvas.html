@@ -1,10 +1,144 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Canvas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body{
+            background-color: #f3f3f3;
+        }
+        img{
+            width: 100%;
+
+
+        }
+        .mynavbar{
+              z-index: 5;
+        }
+        .panel{
+            background-color: white;
+
+        }
+    </style>
 </head>
 <body>
- <img src="{{ canvas }}" alt="">
+
+
+<div class="container-fluid">
+
+    <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+
+        </ul>
+
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Image Editor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Download</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profiles</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+    <hr style="margin: 0px; padding: 0px"  width="100%" color="#dddbdb">
+
+</div>
+
+<div class="container-fluid">
+
+    <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+
+            <div class="icon p-1" style="background-color: whitesmoke">
+                 <li class="nav-item active">
+                <a class="nav-link" href="#"> <i class="fas fa-sun"></i> </a>
+            </li>
+            </div>
+
+
+        </ul>
+
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Download</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Profiles</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+    <hr style="margin: 0px; padding: 0px"  width="100%" color="#dddbdb">
+
+</div>
+
+
+
+
+<div class="container-fluid">
+
+
+ <a href="/">Home</a>
+            <a href="{% url 'toGray' %}">To Gray</a>
+            <a href="{% url 'brightness' %}">To Gray</a>
+                        <img src='{{ obg.image.url }}' alt="">
+
+
+
+    <div class="row">
+
+
+
+
+
+        <div class="col-md-10">
+            {% if obg.editImage %}
+                <img src='{{ obg.editImage.url }}' alt="">
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

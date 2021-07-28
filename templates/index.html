@@ -5,10 +5,14 @@
     <title>Home</title>
 </head>
 <body>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="{% url 'getImage' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="imageToEdit">
         <input type="submit">
     </form>
+
+
+    <a href="{% url 'canvas' %}" >Cnavas</a>
+    <a href="admin/" >Admin</a>
 </body>
 </html>
