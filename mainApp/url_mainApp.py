@@ -6,5 +6,6 @@ urlpatterns = [
     path('getImage/', views.getImage, name='getImage'),
     path('canvas/', views.canvas, name='canvas'),
     path('toGray/', views.toGray, name='toGray'),
-    path('brightness/', views.brightness, name='brightness'),
+    path('brightness_plus/', views.brightness_plus, name='brightness_plus'),
+    path('brightness_minus/', views.brightness_minus, name='brightness_minus'),
 ]

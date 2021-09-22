@@ -7,21 +7,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <style>
-        body{
+        body {
             background-color: #f3f3f3;
         }
-        img{
-            width: 100%;
+
+        img {
+            width: 50%;
 
 
         }
-        .mynavbar{
-              z-index: 5;
+
+        .mynavbar {
+            z-index: 5;
         }
-        .panel{
+
+        .panel {
             background-color: white;
 
         }
@@ -29,96 +34,107 @@
 </head>
 <body>
 
-
+{#------------------------------------------------------------------------------------------------------#}
 <div class="container-fluid">
 
     <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-            </li>
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
 
-        </ul>
+            </ul>
 
-    </div>
-    <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" href="#">Image Editor</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Download</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Profiles</a>
-            </li>
-        </ul>
-    </div>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#">Image Editor</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Download</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profiles</a>
+                </li>
+            </ul>
+        </div>
 
-</nav>
+    </nav>
 
-    <hr style="margin: 0px; padding: 0px"  width="100%" color="#dddbdb">
+    <hr style="margin: 0px; padding: 0px" width="100%" color="#dddbdb">
 
 </div>
+{#------------------------------------------------------------------------------------------------------#}
 
+{#------------------------------------------------------------------------------------------------------#}
 <div class="container-fluid">
 
     <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-        <ul class="navbar-nav mr-auto">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
 
-            <div class="icon p-1" style="background-color: whitesmoke">
-                 <li class="nav-item active">
-                <a class="nav-link" href="#"> <i class="fas fa-sun"></i> </a>
-            </li>
-            </div>
+                <div class="icon  m-1" style="background-color: whitesmoke">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'brightness_plus' %}"> <i class="fas fa-sun"> Add Brightness</i> </a>
+                    </li>
+                </div>
+
+                <div class="icon  m-1" style="background-color: whitesmoke">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'brightness_minus' %}"> <i class="fas fa-sun"> Remove Brightness</i> </a>
+                    </li>
+                </div>
+
+                <div class="icon  m-1" style="background-color: whitesmoke">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'toGray' %}"> <i class="fas fa-exchange-alt"></i> Gray</i> </a>
+                    </li>
+                </div>
 
 
-        </ul>
+            </ul>
 
-    </div>
+        </div>
 
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Download</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Profiles</a>
-            </li>
-        </ul>
-    </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Download</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profiles</a>
+                </li>
+            </ul>
+        </div>
 
-</nav>
+    </nav>
 
-    <hr style="margin: 0px; padding: 0px"  width="100%" color="#dddbdb">
+    <hr style="margin: 0px; padding: 0px" width="100%" color="#dddbdb">
 
 </div>
+{#------------------------------------------------------------------------------------------------------#}
 
 
-
-
+{#------------------------------------------------------------------------------------------------------#}
 <div class="container-fluid">
 
 
- <a href="/">Home</a>
-            <a href="{% url 'toGray' %}">To Gray</a>
-            <a href="{% url 'brightness' %}">To Gray</a>
-                        <img src='{{ obg.image.url }}' alt="">
 
 
 
     <div class="row">
 
 
+        <div class="col-md-6">
+            <img src='{{ obg.image.url }}' alt="">
+        </div>
 
-
-
-        <div class="col-md-10">
+        <div class="col-md-6">
             {% if obg.editImage %}
                 <img src='{{ obg.editImage.url }}' alt="">
             {% endif %}
@@ -126,9 +142,7 @@
 
     </div>
 </div>
-
-
-
+{#------------------------------------------------------------------------------------------------------#}
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
