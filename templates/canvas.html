@@ -6,15 +6,15 @@
     <title>Canvas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://kit.fontawesome.com/95252e1bf5.js" crossorigin="anonymous"></script>
 
     <style>
         body {
 
-background-color: whitesmoke;
+        {#background: #536976;  /* fallback for old browsers */#}{#background: -webkit-linear-gradient(to top, #6b6c8c, #536976);  /* Chrome 10-25, Safari 5.1-6 */#}{#background: linear-gradient(to top, #6b6c8c, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */#} background-color: #5b6467;
+            background-image: linear-gradient(315deg, #5b6467 0%, #8b939a 74%);
+
+
             background-repeat: no-repeat;
             min-height: 100vh;
         }
@@ -25,83 +25,95 @@ background-color: whitesmoke;
 
         .navbar {
             z-index: 5;
+            padding: 20px;
+
         }
 
-        .oka{
+        .oka {
+            text-align: center;
+            width: 150px;
             border-radius: 10px;
 
-background-color: #2d3436;
-background-image: linear-gradient(200deg, #2d3436 0%, #d3d3d3 74%);
+            background: #606c88; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #3f4c6b, #606c88); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #3f4c6b, #606c88);
+        }
 
-
+        .oka:hover {
+            background: #FF5F6D; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
         }
 
-        .oka:hover{
-             background-color: #f5d020;
-            background-image: linear-gradient(315deg, #f5d020 0%, #f53803 74%);
+        .left-menu {
+            background: #0f0c29; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            border-radius: 10px;
+            background-color: black;
         }
 
+        .menu-item {
+            background: #606c88; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #3f4c6b, #606c88); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #3f4c6b, #606c88); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color: white;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .menu-item:hover {
+            color: black;
+
+
+            background: #FF5F6D; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        }
+
+        .navbar .navbar-collapse .navbar-nav .icon .nav-item .nav-link {
+            color: white;
+        }
+
+        .navbar .navbar-collapse .navbar-nav .icon .nav-item .nav-link:hover {
+            color: black;
+        }
 
 
     </style>
+
+
 </head>
 <body>
 
 {#------------------------------------------------------------------------------------------------------#}
-{#------------------------------------------------------------------------------------------------------#}
+<div class="container-fluid">
 
-{#------------------------------------------------------------------------------------------------------#}
-<div class="container-fluid mt-3">
+    <nav class="navbar navbar-expand-md navbar-light shadow " style="
 
-    <nav class="navbar navbar-expand-md navbar-light shadow " style="background-color: #ffffff;
-    background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
-    border-radius: 10px">
+background: #0f0c29;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+            border-radius: 10px">
+
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
 
-                <div class="icon mr-2 oka" >
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'brightness_plus' %}"> <i class="fas fa-sun"> Add Brightness</i> </a>
-                    </li>
-                </div>
+            <ul class="navbar-nav mr-auto ">
 
-                <div class="icon mr-2 oka">
+                <div class="icon mr-3 oka">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'brightness_minus' %}"> <i class="fas fa-sun"> Remove Brightness</i> </a>
-                    </li>
-                </div>
-
-                <div class="icon  mr-2 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'toGray' %}"> <i class="fas fa-exchange-alt"></i> Gray</i> </a>
-                    </li>
-                </div>
-
-                 <div class="icon   mr-2 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'negative' %}"> <i class="fas fa-exchange-alt"></i> Negative</i> </a>
-                    </li>
-                </div>
-
-                 <div class="icon  mr-2 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'undo' %}"> <i class="fas fa-exchange-alt"></i> Undo</i> </a>
-                    </li>
-                </div>
-
-                <div class="icon mr-2 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'crop' %}"> <i class="fas fa-exchange-alt"></i> Crop</i> </a>
+                        <a class="nav-link" href="/"><i class="far fa-folder-open"></i> New Image</i> </a>
                     </li>
                 </div>
 
 
-
-
-                <div class="icon oka">
+                <div class="icon  mr-3 oka">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">New Image</i> </a>
+                        <a class="nav-link" href="{% url 'undo' %}"><i class="fas fa-undo"></i> Undo</i> </a>
                     </li>
                 </div>
 
@@ -109,6 +121,21 @@ background-image: linear-gradient(200deg, #2d3436 0%, #d3d3d3 74%);
 
             </ul>
 
+            <ul class="navbar-nav ml-auto ">
+
+
+
+
+                <div class="icon  mr-2 oka">
+                    <li class="nav-item active">
+
+                        <a class="nav-link" href="{{ obg.editImage.url }}" download> <i class="far fa-save"></i> Save
+                            Image</i> </a>
+                    </li>
+                </div>
+
+
+            </ul>
 
 
         </div>
@@ -120,22 +147,62 @@ background-image: linear-gradient(200deg, #2d3436 0%, #d3d3d3 74%);
 </div>
 {#------------------------------------------------------------------------------------------------------#}
 
-
-
 {#------------------------------------------------------------------------------------------------------#}
 <div class="container-fluid">
 
 
     <div class="row" style="margin-top: 3%">
 
-        <div class="col-md-6 text-center">
-                    <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;" src='{{ obg.image.url }}' alt="">
+
+        <div class="col-md-2 text-center">
+
+            <div class="left-menu p-2">
+
+                <nav class="nav flex-column">
+
+
+                    <a class="menu-item  mt-2 nav-link " href="{% url 'toGray' %}"><i class="fas fa-tint-slash"></i>
+                        Gray</a>
+                    <a class="menu-item  mt-3 nav-link" href="{% url 'negative' %}"><i class="fas fa-theater-masks"></i>
+                        Negative</a>
+
+                    <a class="menu-item nav-link dropdown-toggle mt-3" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Brightness</a>
+                    <div class="dropdown-menu p-1 bg-dark">
+
+
+                        <a class="menu-item dropdown-item   nav-link " href="{% url 'brightness_plus' %}"><i
+                                class="fas fa-plus-circle"></i> Higher</a>
+
+                        <a class="menu-item dropdown-item mt-2 nav-link " href="{% url 'brightness_minus' %}"><i
+                                class="fas fa-minus-circle"></i> Lower</a>
+                    </div>
+
+
+                    <a class="menu-item  mt-3 nav-link" href="{% url 'crop' %}"><i class="fas fa-crop"></i> Crop</a>
+                    <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
+                    <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
+                    <a class="menu-item  mt-3 mb-2 nav-link " href="#">Disabled</a>
+
+                </nav>
+
+            </div>
 
         </div>
 
-        <div class="col-md-6 text-center">
+
+        <div class="col-md-8 text-center">
+            <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;"
+                 src='{{ obg.editImage.url }}'
+                 alt="">
+
+        </div>
+
+        <div class="col-md-2 text-center">
             {% if obg.editImage %}
-                <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;max-width: 95%" src='{{ obg.editImage.url }}' alt="">
+                <img class="shadow-lg p-2 mb-5 bg-white rounded" style="width: auto;max-width: 95%"
+                     src='{{ obg.image.url }}'
+                     alt="">
             {% endif %}
         </div>
 

@@ -1,20 +1,104 @@
-<!DOCTYPE html>
+{% load static %}
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+
+    <style>
+        .logo_login {
+
+            width: 50%;
+
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            min-height: 100%;
+            padding: 20px;
+        }
+
+        #formContent {
+            margin-top: 5vh;
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border-radius: 10px 10px 10px 10px;
+            background: #fff;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            padding: 0px;
+            -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        #formFooter {
+            background-color: #f6f6f6;
+            border-top: 1px solid #dce8f1;
+            padding: 25px;
+            text-align: center;
+            -webkit-border-radius: 0 0 10px 10px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .underlineHover {
+            color: #4284B4;
+        }
+
+    </style>
 </head>
 <body>
 
-    <form action="{% url 'getImage' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="imageToEdit">
-        <input type="submit">
-    </form>
+
+<div class="wrapper">
+    <div id="formContent">
 
 
-    <a href="{% url 'canvas' %}" >Cnavas</a>
-    <a href="admin/" >Admin</a>
+        <div class="my-5">
+            <img class="logo_login" src="{% static 'logo_new.png' %}" id="icon" alt="User Icon"/>
+        </div>
+
+
+        <form action="{% url 'getImage' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-12 input-group form-group">
+                <input class="form-control" type="file" name="imageToEdit" required>
+            </div>
+            <div class="col-md-12 input-group form-group">
+                <input style="background-color:#ba38f1;margin: auto" class="btn  login_btn" type="submit"
+                       value="Open Image">
+            </div>
+        </form>
+
+
+        <a style="float: left;padding: 10px" href="{% url 'canvas' %}">Cnavas</a>
+        <a style="float: right; padding: 10px" href="admin/">Admin</a>
+
+    </div>
+</div>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </body>
 </html>
+
+
+
+
+
+
