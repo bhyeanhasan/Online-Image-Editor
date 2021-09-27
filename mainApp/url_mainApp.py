@@ -8,4 +8,7 @@ urlpatterns = [
     path('toGray/', views.toGray, name='toGray'),
     path('brightness_plus/', views.brightness_plus, name='brightness_plus'),
     path('brightness_minus/', views.brightness_minus, name='brightness_minus'),
+    path('negative/', views.negative, name='negative'),
+    path('undo/', views.undo_all, name='undo'),
+    path('crop/', views.crop, name='crop'),
 ]

@@ -13,125 +13,129 @@
 
     <style>
         body {
-            background-color: #f3f3f3;
+
+background-color: whitesmoke;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
 
         img {
             width: 50%;
-
-
         }
 
-        .mynavbar {
+        .navbar {
             z-index: 5;
         }
 
-        .panel {
-            background-color: white;
+        .oka{
+            border-radius: 10px;
+
+background-color: #2d3436;
+background-image: linear-gradient(200deg, #2d3436 0%, #d3d3d3 74%);
+
+
 
         }
+
+        .oka:hover{
+             background-color: #f5d020;
+            background-image: linear-gradient(315deg, #f5d020 0%, #f53803 74%);
+        }
+
+
+
     </style>
 </head>
 <body>
 
 {#------------------------------------------------------------------------------------------------------#}
-<div class="container-fluid">
-
-    <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-
-            </ul>
-
-        </div>
-        <div class="mx-auto order-0">
-            <a class="navbar-brand mx-auto" href="#">Image Editor</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Download</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profiles</a>
-                </li>
-            </ul>
-        </div>
-
-    </nav>
-
-    <hr style="margin: 0px; padding: 0px" width="100%" color="#dddbdb">
-
-</div>
 {#------------------------------------------------------------------------------------------------------#}
 
 {#------------------------------------------------------------------------------------------------------#}
-<div class="container-fluid">
+<div class="container-fluid mt-3">
 
-    <nav class="navbar navbar-expand-md navbar-light " style="background-color: #ffffff;">
+    <nav class="navbar navbar-expand-md navbar-light shadow " style="background-color: #ffffff;
+    background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+    border-radius: 10px">
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul class="navbar-nav mr-auto">
 
-                <div class="icon  m-1" style="background-color: whitesmoke">
+                <div class="icon mr-2 oka" >
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'brightness_plus' %}"> <i class="fas fa-sun"> Add Brightness</i> </a>
                     </li>
                 </div>
 
-                <div class="icon  m-1" style="background-color: whitesmoke">
+                <div class="icon mr-2 oka">
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'brightness_minus' %}"> <i class="fas fa-sun"> Remove Brightness</i> </a>
                     </li>
                 </div>
 
-                <div class="icon  m-1" style="background-color: whitesmoke">
+                <div class="icon  mr-2 oka">
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'toGray' %}"> <i class="fas fa-exchange-alt"></i> Gray</i> </a>
                     </li>
                 </div>
 
+                 <div class="icon   mr-2 oka">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'negative' %}"> <i class="fas fa-exchange-alt"></i> Negative</i> </a>
+                    </li>
+                </div>
+
+                 <div class="icon  mr-2 oka">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'undo' %}"> <i class="fas fa-exchange-alt"></i> Undo</i> </a>
+                    </li>
+                </div>
+
+                <div class="icon mr-2 oka">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'crop' %}"> <i class="fas fa-exchange-alt"></i> Crop</i> </a>
+                    </li>
+                </div>
+
+
+
+
+                <div class="icon oka">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">New Image</i> </a>
+                    </li>
+                </div>
+
+
 
             </ul>
 
+
+
         </div>
 
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Download</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profiles</a>
-                </li>
-            </ul>
-        </div>
 
     </nav>
 
-    <hr style="margin: 0px; padding: 0px" width="100%" color="#dddbdb">
 
 </div>
 {#------------------------------------------------------------------------------------------------------#}
+
+
 
 {#------------------------------------------------------------------------------------------------------#}
 <div class="container-fluid">
 
 
-    <div class="row mt-3">
+    <div class="row" style="margin-top: 3%">
 
         <div class="col-md-6 text-center">
-            <img style="height: 70vh;width: auto" src='{{ obg.image.url }}' alt="">
+                    <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;" src='{{ obg.image.url }}' alt="">
+
         </div>
 
         <div class="col-md-6 text-center">
             {% if obg.editImage %}
-                <img style="height: 70vh;width: auto" src='{{ obg.editImage.url }}' alt="">
+                <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;max-width: 95%" src='{{ obg.editImage.url }}' alt="">
             {% endif %}
         </div>
 
