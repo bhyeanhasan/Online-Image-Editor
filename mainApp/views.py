@@ -13,7 +13,6 @@ def home(request):
 
 
 def getImage(request):
-
     if 'imageToEdit' in request.FILES:
         image_file = request.FILES['imageToEdit']
         setPic = SelectedImage.objects.get(user=request.user)
@@ -22,12 +21,12 @@ def getImage(request):
 
         image = Image.open(setPic.image)
         editing = np.array(image)
-        if (len(editing[0][0]) > 3):
+        if len(editing[0][0]) > 3:
             image = image.convert('RGB')
             editing = np.array(image)
         image.close()
 
-        management(editing,request.user)
+        management(editing, request.user)
 
     return redirect('canvas')
 
@@ -42,18 +41,17 @@ def management(ary, user):
     setPic.editImage = editImageName
     setPic.save()
 
+
 def editImage_pixel(user):
-    editing = np.array([1,2,3,4])
+    editing = np.array([1, 2, 3, 4])
     user = SelectedImage.objects.get(user=user)
     image = Image.open(user.editImage)
     editing = np.array(image)
-    if (len(editing[0][0]) > 3):
+    if len(editing[0][0]) > 3:
         image = image.convert('RGB')
         editing = np.array(image)
     image.close()
     return editing
-
-
 
 
 def undo_all(request):
@@ -65,13 +63,12 @@ def undo_all(request):
 
 def crop(request):
     editing = editImage_pixel(request.user)
-    new_editing = editing[50:,50:,0:]
-    management(new_editing,request.user)
+    new_editing = editing[50:, 50:, 0:]
+    management(new_editing, request.user)
     return redirect('canvas')
 
 
 def toGray(request):
-
     editing = editImage_pixel(request.user)
 
     for i in range(len(editing)):
@@ -85,39 +82,36 @@ def toGray(request):
     return redirect('canvas')
 
 
-def brightness_plus(request):
+def brightness(request, brightness_type):
     editing = editImage_pixel(request.user)
     bright = 50
-    for i in range(len(editing)):
-        for j in range(len(editing[i])):
-            r, g, b = editing[i][j]
-            r += bright
-            g += bright
-            b += bright
-            r, g, b = pixel_value(r, g, b)
 
-            editing[i][j][0] = r
-            editing[i][j][1] = g
-            editing[i][j][2] = b
+    if brightness_type == "high":
+        for i in range(len(editing)):
+            for j in range(len(editing[i])):
+                r, g, b = editing[i][j]
+                r += bright
+                g += bright
+                b += bright
 
-    management(editing, request.user)
-    return redirect('canvas')
+                r, g, b = pixel_value(r, g, b)
 
+                editing[i][j][0] = r
+                editing[i][j][1] = g
+                editing[i][j][2] = b
+    else:
+        for i in range(len(editing)):
+            for j in range(len(editing[i])):
+                r, g, b = editing[i][j]
+                r -= bright
+                g -= bright
+                b -= bright
 
-def brightness_minus(request):
-    editing = editImage_pixel(request.user)
-    bright = 50
-    for i in range(len(editing)):
-        for j in range(len(editing[i])):
-            r, g, b = editing[i][j]
-            r -= bright
-            g -= bright
-            b -= bright
-            r, g, b = pixel_value(r, g, b)
+                r, g, b = pixel_value(r, g, b)
 
-            editing[i][j][0] = r
-            editing[i][j][1] = g
-            editing[i][j][2] = b
+                editing[i][j][0] = r
+                editing[i][j][1] = g
+                editing[i][j][2] = b
 
     management(editing, request.user)
     return redirect('canvas')
@@ -137,14 +131,20 @@ def negative(request):
     return redirect('canvas')
 
 
-
 def pixel_value(r, g, b):
     if (r > 254):
         r = 254
+    elif (r < 0):
+        r = 0
     if (g > 254):
         g = 254
+    elif (g < 0):
+        g = 0
     if (b > 254):
         b = 254
+    elif (b < 0):
+        b = 0
+
 
     return [r, g, b]
 
