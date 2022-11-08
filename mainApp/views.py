@@ -16,6 +16,7 @@ def getImage(request):
     if 'imageToEdit' in request.FILES:
         image_file = request.FILES['imageToEdit']
         setPic = SelectedImage.objects.get(user=request.user)
+
         setPic.image = image_file
         setPic.save()
 
@@ -35,7 +36,7 @@ def management(ary, user):
     img_new = Image.fromarray(ary)
     # name = str(uuid.uuid4()) + '.png'
     name = 'edit.jpeg'
-    img_new.save('static_media/edit/' + name)
+    img_new.save('media/edit/' + name)
     editImageName = 'edit/' + name
     setPic = SelectedImage.objects.get(user=user)
     setPic.editImage = editImageName
