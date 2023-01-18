@@ -11,7 +11,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'mainApp.apps.MainappConfig',
-    'django_cleanup.apps.CleanupConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
