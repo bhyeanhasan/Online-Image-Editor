@@ -12,4 +12,10 @@ urlpatterns = [
     path('negative/', views.negative, name='negative'),
     path('add_bright', views.add_bright, name='add_bright'),
     path('remove_bright', views.remove_bright, name='remove_bright'),
+    path('GaussianBlur', views.GaussianBlur, name='GaussianBlur'),
+    path('medianBlur', views.medianBlur, name='medianBlur'),
+    path('crop_left', views.crop_left, name='crop_left'),
+    path('crop_right', views.crop_right, name='crop_right'),
+    path('crop_up', views.crop_up, name='crop_up'),
+    path('crop_down', views.crop_down, name='crop_down'),
 ]

@@ -101,6 +101,88 @@ def remove_bright(request):
     return redirect('canvas')
 
 
+def GaussianBlur(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+
+    img = cv2.GaussianBlur(img, (7, 7), 0)
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
+def medianBlur(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+
+    img = cv2.medianBlur(img, 5)
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
+def crop_left(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+    if y > 20:
+        img = img[:, 20:]
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
+def crop_right(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+    if y > 20:
+        img = img[:, :y - 20]
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
+def crop_up(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+    if x > 20:
+        img = img[20:, :]
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
+def crop_down(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+    if x > 20:
+        img = img[:x-20, :]
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+    return redirect('canvas')
+
+
 def undo(request):
     object = SelectedImage.objects.get(user=request.user)
     object.editImage = object.image

@@ -164,33 +164,64 @@ background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/
                     <a class="menu-item  mt-3 nav-link" href={% url 'negative' %}><i class="fas fa-theater-masks"></i>
                         Negative</a>
 
-                    <a class="menu-item nav-link dropdown-toggle mt-3" data-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Brightness</a>
-                    <div class="dropdown-menu p-1 bg-dark">
+                    <div class="dropdown">
+                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuButton"
+                           data-toggle="dropdown"
+                           href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Brightness</a>
+
+                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuButton">
+
+                            <a class="menu-item dropdown-item   nav-link " href={% url 'add_bright' %}><i
+                                    class="fas fa-plus-circle"></i> Higher</a>
+                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'remove_bright' %}><i
+                                    class="fas fa-minus-circle"></i> Lower</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuLink" data-toggle="dropdown"
+                           href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Blur</a>
+
+                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuLink">
 
 
-                        <a class="menu-item dropdown-item   nav-link " href={% url 'add_bright' %}><i
-                                class="fas fa-plus-circle"></i> Higher</a>
+                            <a class="menu-item dropdown-item   nav-link " href={% url 'GaussianBlur' %}><i
+                                    class="fas fa-plus-circle"></i> Gaussian Blur</a>
 
-                        <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'remove_bright' %}><i
-                                class="fas fa-minus-circle"></i> Lower</a>
+                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'medianBlur' %}><i
+                                    class="fas fa-minus-circle"></i> Median Blur</a>
+                        </div>
                     </div>
 
 
-                    <a class="menu-item nav-link dropdown-toggle mt-3" data-toggle="dropdown" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Blur</a>
-                    <div class="dropdown-menu p-1 bg-dark">
+                    <div class="dropdown">
+                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuLink" data-toggle="dropdown"
+                           href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-crop"></i> Crop</a>
+
+                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuLink">
 
 
-                        <a class="menu-item dropdown-item   nav-link " href={% url 'add_bright' %}><i
-                                class="fas fa-plus-circle"></i> Higher</a>
+                            <a class="menu-item dropdown-item   nav-link " href={% url 'crop_left' %}>
+                                <i class="fas fa-angle-right"></i> Left</a>
 
-                        <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'remove_bright' %}><i
-                                class="fas fa-minus-circle"></i> Lower</a>
+                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_right' %}><i
+                                    class="fas fa-angle-left"></i> Right</a>
+
+                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_up' %}><i
+                                    class="	fas fa-angle-down"></i> Up</a>
+
+                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_down' %}><i
+                                    class="	fas fa-angle-up"></i> Down</a>
+
+                        </div>
                     </div>
 
 
-                    <a class="menu-item  mt-3 nav-link" href="#"><i class="fas fa-crop"></i> Crop</a>
+
+
                     <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
                     <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
                     <a class="menu-item  mt-3 mb-2 nav-link " href="#">Disabled</a>
@@ -203,7 +234,7 @@ background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/
 
 
         <div class="col-md-8 text-center">
-            <img class="shadow-lg p-2 mb-5 bg-white rounded" style="height: 70vh;width: auto;"
+            <img class="shadow-lg p-2 mb-5 bg-white rounded" style="max-height: 70vh;width:auto;"
                  src='{{ obg.editImage.url }}'
                  alt="">
 
