@@ -18,4 +18,5 @@ urlpatterns = [
     path('crop_right', views.crop_right, name='crop_right'),
     path('crop_up', views.crop_up, name='crop_up'),
     path('crop_down', views.crop_down, name='crop_down'),
+    path('canvas/resize', views.resize, name='resize'),
 ]

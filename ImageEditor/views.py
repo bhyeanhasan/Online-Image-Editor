@@ -34,7 +34,10 @@ def getImage(request):
 @login_required
 def canvas(request):
     obg = SelectedImage.objects.get(user=request.user)
-    return render(request, 'canvas.html', {'obg': obg})
+    img = obg.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+    return render(request, 'canvas.html', {'obg': obg, 'x': x, 'y': y})
 
 
 def gray(request):
@@ -175,7 +178,7 @@ def crop_down(request):
     img = cv2.imread('./' + img)
     x, y, z = img.shape
     if x > 20:
-        img = img[:x-20, :]
+        img = img[:x - 20, :]
 
     ret, buf = cv2.imencode('.jpg', img)
     content = ContentFile(buf.tobytes())
@@ -187,6 +190,26 @@ def undo(request):
     object = SelectedImage.objects.get(user=request.user)
     object.editImage = object.image
     object.save()
+    return redirect('canvas')
+
+
+def resize(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img = object.editImage.url
+    img = cv2.imread('./' + img)
+    x, y, z = img.shape
+
+    if request.method == 'POST':
+        height = int(request.POST['height'])
+        width = int(request.POST['width'])
+
+        if height > 0 and width > 0:
+            img = cv2.resize(img, (width, height), interpolation=cv2.INTER_LINEAR)
+
+    ret, buf = cv2.imencode('.jpg', img)
+    content = ContentFile(buf.tobytes())
+    object.editImage.save('output.jpg', content)
+
     return redirect('canvas')
 
 

@@ -220,11 +220,18 @@ background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/
                     </div>
 
 
+                    <div class="menu-item  mt-3 p-1 ">
+                        <form action="resize"  method="post">
+                            {% csrf_token %}
+                            <input class="form-control my-1" type="number" name="height" placeholder="Height :" required>
 
+                            <input class="form-control my-1" type="number" name="width" placeholder="Width :" required>
 
-                    <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
-                    <a class="menu-item  mt-3 nav-link " href="#">Disabled</a>
-                    <a class="menu-item  mt-3 mb-2 nav-link " href="#">Disabled</a>
+                            <input class="form-control my-1 menu-item  mt-2 nav-link " type="submit" value="Resize">
+                        </form>
+
+                    </div>
+
 
                 </nav>
 
@@ -246,21 +253,27 @@ background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/
                      src='{{ obg.image.url }}'
                      alt="">
             {% endif %}
+
+            <div class="shadow-lg p-2 mb-5  rounded" style="background-color: #302b63;color: white">
+                <h4>Dimension</h4>
+                <h6> Height: {{ x }} pixels</h6>
+                <h6>Width: {{ y }} pixels</h6>
+            </div>
+
+
         </div>
-
     </div>
-</div>
-{#------------------------------------------------------------------------------------------------------#}
+    {#------------------------------------------------------------------------------------------------------#}
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 </body>
 </html>
