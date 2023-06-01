@@ -3,19 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div style="margin-bottom: 30vh">
 
-<form class="forms" action="login" method="post">
-    {% csrf_token %}
+            </div>
+            <div class="alert alert-warning" role="alert">
+                <h5> Username : pstu <br> Password: pstu</h5>
+            </div>
+            <form class="forms " action="{% url 'login' %}?next={% url 'home' %}" method="post">
+                {% csrf_token %}
 
-    <input type="text" name="username" class="form-control" placeholder="Username">
+                <input type="text" name="username" class="form-control mt-5" placeholder="Username">
 
-    <input type="text" name="password" class="form-control" placeholder="Password">
+                <input type="text" name="password" class="form-control mt-5" placeholder="Password">
 
-    <button style="margin-left: 45%;" type="submit" class="btn btn-primary">Sign in</button>
+                <button style="margin-left: 45%;" type="submit" class="btn btn-primary mt-5">Sign in</button>
+            </form>
 
-</form>
+
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
 

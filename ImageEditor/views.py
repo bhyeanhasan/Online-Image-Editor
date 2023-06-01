@@ -3,9 +3,10 @@ from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect
-from mainApp.models import SelectedImage
 from datetime import datetime
 import numpy as np
+
+from ImageEditor.models import SelectedImage
 
 
 def home(request):

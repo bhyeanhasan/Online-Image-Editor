@@ -10,7 +10,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'mainApp.apps.MainappConfig',
+    'ImageEditor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
