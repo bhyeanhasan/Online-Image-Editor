@@ -2028,7 +2028,7 @@ module.exports = function(XRegExp) {
     'use strict';
 
     /**
-     * Adds properties to meet the UTS #18 Level 1 RL1.2 requirements for Unicode regex support. See
+     * Adds properties to meet the UTS #18 Level 1 RL1.2 requirements.txt for Unicode regex support. See
      * <http://unicode.org/reports/tr18/#RL1.2>. Following are definitions of these properties from
      * UAX #44 <http://unicode.org/reports/tr44/>:
      *
