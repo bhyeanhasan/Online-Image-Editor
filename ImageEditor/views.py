@@ -5,8 +5,9 @@ from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect
 from datetime import datetime
 import numpy as np
-
 from ImageEditor.models import SelectedImage
+from django.conf import settings
+
 
 
 def home(request):
@@ -35,17 +36,22 @@ def getImage(request):
 @login_required
 def canvas(request):
     obg = SelectedImage.objects.get(user=request.user)
-    img = obg.editImage.url
-    img = cv2.imread('./' + img)
+    img = obg.editImage.name
+
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
+
     x, y, z = img.shape
     return render(request, 'canvas.html', {'obg': obg, 'x': x, 'y': y})
 
 
 def gray(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
-
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     ret, buf = cv2.imencode('.jpg', img)
@@ -56,8 +62,10 @@ def gray(request):
 
 def negative(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
 
     img = 255 - img
 
@@ -69,8 +77,10 @@ def negative(request):
 
 def add_bright(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     h, s, v = cv2.split(hsv)
@@ -88,8 +98,10 @@ def add_bright(request):
 
 def remove_bright(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
 
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     h, s, v = cv2.split(hsv)
@@ -107,8 +119,10 @@ def remove_bright(request):
 
 def GaussianBlur(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
 
     img = cv2.GaussianBlur(img, (7, 7), 0)
 
@@ -120,9 +134,10 @@ def GaussianBlur(request):
 
 def medianBlur(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
-
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     img = cv2.medianBlur(img, 5)
 
     ret, buf = cv2.imencode('.jpg', img)
@@ -133,8 +148,10 @@ def medianBlur(request):
 
 def crop_left(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     x, y, z = img.shape
     if y > 20:
         img = img[:, 20:]
@@ -147,8 +164,10 @@ def crop_left(request):
 
 def crop_right(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     x, y, z = img.shape
     if y > 20:
         img = img[:, :y - 20]
@@ -161,8 +180,10 @@ def crop_right(request):
 
 def crop_up(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     x, y, z = img.shape
     if x > 20:
         img = img[20:, :]
@@ -175,8 +196,10 @@ def crop_up(request):
 
 def crop_down(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     x, y, z = img.shape
     if x > 20:
         img = img[:x - 20, :]
@@ -196,8 +219,10 @@ def undo(request):
 
 def resize(request):
     object = SelectedImage.objects.get(user=request.user)
-    img = object.editImage.url
-    img = cv2.imread('./' + img)
+    img = object.editImage.name
+    media_url = settings.MEDIA_ROOT
+    media_url = media_url.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img)
     x, y, z = img.shape
 
     if request.method == 'POST':
@@ -217,7 +242,6 @@ def resize(request):
 def save(request):
     obj = SelectedImage.objects.get(user=request.user)
     img = obj.editImage
-    print(img.url)
     photo = cv2.imread(img.url)
     imaj = cv2.resize(photo, (600, 600))
     obj.editImage = imaj

@@ -1,3 +1,4 @@
 from django.contrib import admin
+from ImageEditor.models import SelectedImage
 
-# Register your models here.
+admin.site.register(SelectedImage)
