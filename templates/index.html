@@ -1,104 +1,60 @@
 {% load static %}
-
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Home - Online Image Editor</title>
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- Custom CSS -->
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <style>
-        .logo_login {
-
-            width: 50%;
-
+    <!-- Script to handle file name display -->
+    <script>
+        function updateFileName(input) {
+            const fileName = input.files[0] ? input.files[0].name : "Choose an Image...";
+            document.getElementById('file-upload-label').innerHTML = '<i class="fas fa-image"></i> ' + fileName;
         }
-
-        .wrapper {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            min-height: 100%;
-            padding: 20px;
-        }
-
-        #formContent {
-            margin-top: 5vh;
-            -webkit-border-radius: 10px 10px 10px 10px;
-            border-radius: 10px 10px 10px 10px;
-            background: #fff;
-            padding: 30px;
-            width: 90%;
-            max-width: 450px;
-            position: relative;
-            padding: 0px;
-            -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-            box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        #formFooter {
-            background-color: #f6f6f6;
-            border-top: 1px solid #dce8f1;
-            padding: 25px;
-            text-align: center;
-            -webkit-border-radius: 0 0 10px 10px;
-            border-radius: 0 0 10px 10px;
-        }
-
-        .underlineHover {
-            color: #4284B4;
-        }
-
-    </style>
+    </script>
 </head>
+
 <body>
 
+    <div class="main-container">
 
-<div class="wrapper">
-    <div id="formContent">
-
-
-        <div class="my-5">
-            <img class="logo_login" src="{% static 'logo_new.png' %}" id="icon" alt="User Icon"/>
+        <div class="logo-container">
+            <img src="{% static 'logo_new.png' %}" alt="Image Editor Logo">
         </div>
 
+        <h1>Online Image Editor</h1>
 
-        <form action="{% url 'getImage' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'getImage' %}" method="post" enctype="multipart/form-data" class="upload-container">
             {% csrf_token %}
-            <div class="col-md-12 input-group form-group">
-                <input class="form-control" type="file" name="imageToEdit" required>
+
+            <div class="file-upload-wrapper" onclick="document.getElementById('imageToEdit').click()">
+                <input type="file" id="imageToEdit" name="imageToEdit" required onchange="updateFileName(this)">
+                <span class="file-upload-text" id="file-upload-label">
+                    <i class="fas fa-cloud-upload-alt"></i> Select Image to Edit
+                </span>
             </div>
-            <div class="col-md-12 input-group form-group">
-                <input style="background-color:#ba38f1;margin: auto" class="btn  login_btn" type="submit"
-                       value="Open Image">
-            </div>
+
+            <button type="submit" class="btn-primary-custom">
+                <i class="fas fa-magic"></i> Open Editor
+            </button>
         </form>
 
-
-        <a style="float: left;padding: 10px" href="{% url 'canvas' %}">Canvas</a>
-        <a style="float: right; padding: 10px" href="admin/">Admin</a>
+        <div class="nav-links">
+            <a href="{% url 'canvas' %}" class="nav-link-item"><i class="fas fa-palette"></i> Canvas</a>
+            <a href="admin/" class="nav-link-item"><i class="fas fa-user-shield"></i> Admin</a>
+        </div>
 
     </div>
-</div>
-
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
+
 </html>
-
-
-
-
-
-

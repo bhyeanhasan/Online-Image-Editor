@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 350px;
+    text-align: center;
+    color: white;
+}
+
+.login-container h2 {
+    margin-bottom: 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    background: transparent;
+    transition: 0.5s;
+}
+
+.input-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -20px;
+    left: 0;
+    color: #f64f59;
+    /* Accent color from gradient */
+    font-size: 12px;
+}
+
+.input-box input:focus,
+.input-box input:valid {
+    border-bottom: 2px solid #f64f59;
+}
+
+.btn-submit {
+    background: #fff;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 600;
+    width: 100%;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-submit:hover {
+    background: #f64f59;
+    color: white;
+    box-shadow: 0 0 10px #f64f59, 0 0 40px #f64f59, 0 0 80px #f64f59;
+}
+
+.alert-message {
+    background: rgba(255, 99, 71, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.alert-info-custom {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+.alert-info-custom h5 {
+    margin: 0;
+    font-size: 1em;
+}

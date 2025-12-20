@@ -24,4 +24,16 @@ urlpatterns = [
     path('crop_up', views.crop_up, name='crop_up'),
     path('crop_down', views.crop_down, name='crop_down'),
     path('canvas/resize', views.resize, name='resize'),
+    path('custom_crop/', views.custom_crop, name='custom_crop'),
+    
+    # New Features
+    path('flip_horizontal/', views.flip_horizontal, name='flip_horizontal'),
+    path('flip_vertical/', views.flip_vertical, name='flip_vertical'),
+    path('contrast_boost/', views.contrast_boost, name='contrast_boost'),
+    path('contrast_reduce/', views.contrast_reduce, name='contrast_reduce'),
+    path('filter_sepia/', views.filter_sepia, name='filter_sepia'),
+    path('filter_sharpen/', views.filter_sharpen, name='filter_sharpen'),
+    path('filter_sketch/', views.filter_sketch, name='filter_sketch'),
+    path('filter_vignette/', views.filter_vignette, name='filter_vignette'),
+    path('add_text/', views.add_text, name='add_text'),
 ]

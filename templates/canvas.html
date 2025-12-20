@@ -1,295 +1,254 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Canvas</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/95252e1bf5.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas - Online Image Editor</title>
 
-    <style>
-        body {
+    <!-- Bootstrap CSS (for grid/utilities if needed, but we rely mostly on custom CSS) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-        {#background: #536976;  /* fallback for old browsers */#}{#background: -webkit-linear-gradient(to top, #6b6c8c, #536976);  /* Chrome 10-25, Safari 5.1-6 */#}{#background: linear-gradient(to top, #6b6c8c, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */#} background-color: #5b6467;
-            background-image: linear-gradient(315deg, #5b6467 0%, #8b939a 74%);
+    <!-- Custom CSS -->
+    <link href="{% static 'css/canvas.css' %}" rel="stylesheet">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-            background-repeat: no-repeat;
-            min-height: 100vh;
-        }
-
-        img {
-            width: 50%;
-        }
-
-        .navbar {
-            z-index: 5;
-            padding: 20px;
-
-        }
-
-        .oka {
-            text-align: center;
-            width: 150px;
-            border-radius: 10px;
-
-            background: #606c88; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #3f4c6b, #606c88); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #3f4c6b, #606c88);
-        }
-
-        .oka:hover {
-            background: #FF5F6D; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-        }
-
-        .left-menu {
-            background: #0f0c29; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-            border-radius: 10px;
-            background-color: black;
-        }
-
-        .menu-item {
-            background: #606c88; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #3f4c6b, #606c88); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #3f4c6b, #606c88); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-            color: white;
-            border-radius: 10px;
-            background-color: white;
-        }
-
-        .menu-item:hover {
-            color: black;
-
-
-            background: #FF5F6D; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-        }
-
-        .navbar .navbar-collapse .navbar-nav .icon .nav-item .nav-link {
-            color: white;
-        }
-
-        .navbar .navbar-collapse .navbar-nav .icon .nav-item .nav-link:hover {
-            color: black;
-        }
-
-
-    </style>
-
-
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
 </head>
+
 <body>
 
-{#------------------------------------------------------------------------------------------------------#}
-<div class="container-fluid">
+    <!-- Navbar/Toolbar -->
+    <nav class="custom-navbar">
+        <a class="brand-logo" href="/"><i class="fas fa-magic"></i> Image Editor</a>
 
-    <nav class="navbar navbar-expand-md navbar-light shadow " style="
+        <div class="toolbar-actions">
+            <!-- New Image -->
+            <a href="/" class="tool-btn"><i class="far fa-folder-open"></i> New</a>
 
-background: #0f0c29;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to left, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to left, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            <!-- Undo -->
+            <a href="{% url 'undo' %}" class="tool-btn"><i class="fas fa-undo"></i> Undo</a>
 
-            border-radius: 10px">
-
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-
-            <ul class="navbar-nav mr-auto ">
-
-                <div class="icon mr-3 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/"><i class="far fa-folder-open"></i> New Image</i> </a>
-                    </li>
-
-
-                </div>
-
-
-                <div class="icon  mr-3 oka">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'undo' %}"><i class="fas fa-undo"></i> Undo</i> </a>
-                    </li>
-                </div>
-
-
-            </ul>
-
-            <ul class="navbar-nav ml-auto ">
-
-
-                <div class="icon  mr-2 oka">
-                    <li class="nav-item active">
-
-                        <a class="nav-link" href="{{ obg.editImage.url }}" download> <i class="far fa-save"></i> Save
-                            Image</i> </a>
-                    </li>
-                </div>
-
-            </ul>
-
-
+            <!-- Save -->
+            <a href="{{ obg.editImage.url }}" download class="tool-btn primary"><i class="far fa-save"></i> Save</a>
         </div>
-
-
     </nav>
 
+    <div class="canvas-wrapper">
 
-</div>
-{#------------------------------------------------------------------------------------------------------#}
+        <!-- Sidebar Tools -->
+        <aside class="sidebar">
 
-{#------------------------------------------------------------------------------------------------------#}
-<div class="container-fluid">
-
-
-    <div class="row" style="margin-top: 3%">
-
-
-        <div class="col-md-2 text-center">
-
-            <div class="left-menu p-2">
-
-                <nav class="nav flex-column">
-
-
-                    <a class="menu-item  mt-2 nav-link " href={% url 'gray' %}><i class="fas fa-tint-slash"></i>
-                        Gray</a>
-                    <a class="menu-item  mt-3 nav-link" href={% url 'negative' %}><i class="fas fa-theater-masks"></i>
-                        Negative</a>
-
-                    <a class="menu-item  mt-3 nav-link" href={% url 'rotate_left' %}><i
-                            class="fas fa-chevron-circle-left"></i>
-                        Rotate Left</a>
-
-                    <a class="menu-item  mt-3 nav-link" href={% url 'rotate_right' %}><i
-                            class="fas fa-chevron-circle-right"></i>
-                        Rotate Right</a>
-
-                    <a class="menu-item  mt-3 nav-link" href={% url 'detect_edge' %}><i
-                            class="fas fa-vector-square"></i>
-                        Detect Edge</a>
-
-
-                    <div class="dropdown">
-                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuButton"
-                           data-toggle="dropdown"
-                           href="#" role="button"
-                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-sun"></i> Brightness</a>
-
-                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuButton">
-
-                            <a class="menu-item dropdown-item   nav-link " href={% url 'add_bright' %}><i
-                                    class="fas fa-plus-circle"></i> Higher</a>
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'remove_bright' %}><i
-                                    class="fas fa-minus-circle"></i> Lower</a>
-                        </div>
-                    </div>
-
-                    <div class="dropdown">
-                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuLink" data-toggle="dropdown"
-                           href="#" role="button"
-                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-bug"></i> Reduce Noise</a>
-
-                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuLink">
-
-
-                            <a class="menu-item dropdown-item   nav-link " href={% url 'GaussianBlur' %}> Gaussian</a>
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'medianBlur' %}> Median</a>
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'meanfilter' %}> Mean</a>
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'midpoint_filter' %}> Mid
-                                point</a>
-
-
-                        </div>
-                    </div>
-
-
-                    <div class="dropdown">
-                        <a class="menu-item nav-link dropdown-toggle mt-3" id="dropdownMenuLink" data-toggle="dropdown"
-                           href="#" role="button"
-                           aria-haspopup="true" aria-expanded="false"><i class="fas fa-crop"></i> Crop</a>
-
-                        <div class="dropdown-menu p-1 bg-dark" aria-labelledby="dropdownMenuLink">
-
-
-                            <a class="menu-item dropdown-item   nav-link " href={% url 'crop_left' %}>
-                                <i class="fas fa-angle-right"></i> Left</a>
-
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_right' %}><i
-                                    class="fas fa-angle-left"></i> Right</a>
-
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_up' %}><i
-                                    class="	fas fa-angle-down"></i> Up</a>
-
-                            <a class="menu-item dropdown-item mt-2 nav-link " href={% url 'crop_down' %}><i
-                                    class="	fas fa-angle-up"></i> Down</a>
-
-                        </div>
-                    </div>
-
-
-                    <div class="menu-item  mt-3 p-1 ">
-                        <form action="resize" method="post">
-                            {% csrf_token %}
-                            <input class="form-control my-1" type="number" name="height" placeholder="Height :"
-                                   required>
-
-                            <input class="form-control my-1" type="number" name="width" placeholder="Width :" required>
-
-                            <input class="form-control my-1 menu-item  mt-2 nav-link " type="submit" value="Resize">
-                        </form>
-
-                    </div>
-
-
-                </nav>
-
+            <!-- Essentials: Rotate & Flip -->
+            <h5>Essentials</h5>
+            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                <a class="tool-btn" href="{% url 'rotate_left' %}" title="Rotate Left"
+                    style="flex:1; justify-content:center;"><i class="fas fa-undo"></i></a>
+                <a class="tool-btn" href="{% url 'rotate_right' %}" title="Rotate Right"
+                    style="flex:1; justify-content:center;"><i class="fas fa-redo"></i></a>
+            </div>
+            <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+                <a class="tool-btn" href="{% url 'flip_horizontal' %}" title="Flip Horizontal"
+                    style="flex:1; justify-content:center;"><i class="fas fa-arrows-alt-h"></i></a>
+                <a class="tool-btn" href="{% url 'flip_vertical' %}" title="Flip Vertical"
+                    style="flex:1; justify-content:center;"><i class="fas fa-arrows-alt-v"></i></a>
             </div>
 
-        </div>
+
+            <!-- Adjustments -->
+            <h5>Adjustments</h5>
+            <div class="dropdown">
+                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
+                    <i class="fas fa-sliders-h"></i> Brightness & Contrast
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'add_bright' %}"><i class="fas fa-plus"></i> Brightness</a>
+                    <a class="dropdown-item" href="{% url 'remove_bright' %}"><i class="fas fa-minus"></i>
+                        Brightness</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'contrast_boost' %}"><i class="fas fa-adjust"></i> Boost
+                        Contrast</a>
+                    <a class="dropdown-item" href="{% url 'contrast_reduce' %}"><i class="fas fa-adjust"></i> Reduce
+                        Contrast</a>
+                </div>
+            </div>
+
+            <!-- Dynamic Crop -->
+            <button id="btn-start-crop" class="sidebar-item tool-btn"
+                style="width:100%; justify-content: flex-start; background: transparent; border: none;">
+                <i class="fas fa-crop-alt"></i> Crop Mode
+            </button>
+
+            <div id="crop-controls"
+                style="display:none; padding:10px; background:rgba(0,0,0,0.2); border-radius:5px; margin-top:5px;">
+                <button id="btn-crop-confirm" class="tool-btn primary"
+                    style="width:100%; justify-content:center; margin-bottom:5px;">
+                    <i class="fas fa-check"></i> Apply Crop
+                </button>
+                <button id="btn-crop-cancel" class="tool-btn"
+                    style="width:100%; justify-content:center; background:#ef4444;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+
+            <!-- Hidden form for custom crop -->
+            <form id="crop-form" action="{% url 'custom_crop' %}" method="post" style="display:none;">
+                {% csrf_token %}
+                <input type="hidden" name="x" id="crop-x">
+                <input type="hidden" name="y" id="crop-y">
+                <input type="hidden" name="width" id="crop-width">
+                <input type="hidden" name="height" id="crop-height">
+            </form>
+
+            <!-- Resize Section -->
+            <h5>Resize</h5>
+            <form action="resize" method="post" class="sidebar-section">
+                {% csrf_token %}
+                <input type="number" name="width" placeholder="Width" class="custom-input" required>
+                <input type="number" name="height" placeholder="Height" class="custom-input" required>
+                <button type="submit" class="tool-btn primary"
+                    style="width: 100%; justify-content: center; margin-top: 5px;">
+                    Resize
+                </button>
+            </form>
+
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
 
 
-        <div class="col-md-8 text-center">
-            <img class="shadow-lg p-2 mb-5 bg-white rounded" style="max-height: 70vh;width:auto;"
-                 src='{{ obg.editImage.url }}'
-                 alt="">
 
-        </div>
 
-        <div class="col-md-2 text-center">
+            <!-- Filters -->
+            <h5>Filters</h5>
+            <div class="dropdown">
+                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
+                    <i class="fas fa-magic"></i> Creative Filters
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'gray' %}">Grayscale</a>
+                    <a class="dropdown-item" href="{% url 'filter_sepia' %}">Sepia</a>
+                    <a class="dropdown-item" href="{% url 'filter_sketch' %}">Pencil Sketch</a>
+                    <a class="dropdown-item" href="{% url 'negative' %}">Negative</a>
+                    <a class="dropdown-item" href="{% url 'filter_vignette' %}">Vignette</a>
+                    <a class="dropdown-item" href="{% url 'filter_sharpen' %}">Sharpen</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
+                    <i class="fas fa-tint"></i> Blur & Smooth
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'GaussianBlur' %}">Gaussian Blur</a>
+                    <a class="dropdown-item" href="{% url 'medianBlur' %}">Median Blur</a>
+                    <a class="dropdown-item" href="{% url 'meanfilter' %}">Mean Filter</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
+                    <i class="fas fa-project-diagram"></i> Edge Detection
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'detect_edge' %}">Canny Edge</a>
+                    <a class="dropdown-item" href="{% url 'midpoint_filter' %}">Midpoint Filter</a>
+                </div>
+            </div>
+
+            <!-- Text Overlay -->
+            <h5>Add Text</h5>
+            <form action="{% url 'add_text' %}" method="post" class="sidebar-section">
+                {% csrf_token %}
+                <input type="text" name="text" placeholder="Enter text..." class="custom-input" required>
+                <button type="submit" class="tool-btn"
+                    style="width: 100%; justify-content: center; margin-top: 5px; background: #4f46e5;">
+                    <i class="fas fa-font"></i> Add Text
+                </button>
+            </form>
+
+        </aside>
+
+        <!-- Main Canvas -->
+        <main class="main-canvas">
+            <img id="image-canvas" src="{{ obg.editImage.url }}" alt="Edited Image" style="max-width: 100%;">
+        </main>
+
+        <!-- Right Panel (Original & Stats) -->
+        <aside class="right-panel">
             {% if obg.editImage %}
-                <img class="shadow-lg p-2 mb-5 bg-white rounded" style="width: auto;max-width: 95%"
-                     src='{{ obg.image.url }}'
-                     alt="">
+            <div class="panel-card">
+                <h4>Original</h4>
+                <img src="{{ obg.image.url }}" alt="Original Image">
+                <p>Compare with source</p>
+            </div>
             {% endif %}
 
-            <div class="shadow-lg p-2 mb-5  rounded" style="background-color: #302b63;color: white">
-                <h4>Dimension</h4>
-                <h6> Height: {{ x }} pixels</h6>
-                <h6>Width: {{ y }} pixels</h6>
+            <div class="panel-card">
+                <h4>Dimensions</h4>
+                <p>Height: {{ x }} px</p>
+                <p>Width: {{ y }} px</p>
             </div>
+        </aside>
 
-
-        </div>
     </div>
-    {#------------------------------------------------------------------------------------------------------#}
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const image = document.getElementById('image-canvas');
+            const startCropBtn = document.getElementById('btn-start-crop');
+            const confirmCropBtn = document.getElementById('btn-crop-confirm');
+            const cancelCropBtn = document.getElementById('btn-crop-cancel');
+            const cropControls = document.getElementById('crop-controls');
+            let cropper;
+
+            startCropBtn.addEventListener('click', function () {
+                if (cropper) {
+                    return;
+                }
+
+                cropControls.style.display = 'block';
+                startCropBtn.style.display = 'none';
+
+                cropper = new Cropper(image, {
+                    aspectRatio: NaN, // Free crop
+                    viewMode: 1,
+                });
+            });
+
+            cancelCropBtn.addEventListener('click', function () {
+                if (cropper) {
+                    cropper.destroy();
+                    cropper = null;
+                }
+                cropControls.style.display = 'none';
+                startCropBtn.style.display = 'flex';
+            });
+
+            confirmCropBtn.addEventListener('click', function () {
+                if (!cropper) return;
+
+                const data = cropper.getData();
+
+                document.getElementById('crop-x').value = Math.round(data.x);
+                document.getElementById('crop-y').value = Math.round(data.y);
+                document.getElementById('crop-width').value = Math.round(data.width);
+                document.getElementById('crop-height').value = Math.round(data.height);
+
+                document.getElementById('crop-form').submit();
+            });
+        });
+    </script>
 </body>
+
 </html>

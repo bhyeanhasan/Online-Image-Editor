@@ -9,7 +9,7 @@ from ImageEditor.models import SelectedImage
 from django.conf import settings
 
 
-
+@login_required
 def home(request):
     return render(request, 'index.html')
 
@@ -369,4 +369,217 @@ def save(request):
     imaj = cv2.resize(photo, (600, 600))
     obj.editImage = imaj
     obj.save()
+    return redirect('canvas')
+
+def custom_crop(request):
+    if request.method == 'POST':
+        try:
+            object = SelectedImage.objects.get(user=request.user)
+            img = object.editImage.name
+            media_url = settings.MEDIA_ROOT
+            media_url = media_url.replace('\\', "/")
+            img = cv2.imread(media_url + '/' + img)
+
+            x = int(float(request.POST.get('x')))
+            y = int(float(request.POST.get('y')))
+            width = int(float(request.POST.get('width')))
+            height = int(float(request.POST.get('height')))
+
+            # Ensure coordinates are valid
+            if width > 0 and height > 0:
+                # Crop format: img[y:y+h, x:x+w]
+                cropped_img = img[y:y+height, x:x+width]
+                
+                ret, buf = cv2.imencode('.jpg', cropped_img)
+                content = ContentFile(buf.tobytes())
+                object.editImage.save('cropped_output.jpg', content)
+
+        except Exception as e:
+            print(f"Error cropping image: {e}")
+            pass
+            
+    return redirect('canvas')
+
+# --- New Feature Views ---
+
+def flip_horizontal(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+    
+    if img is not None:
+        img = cv2.flip(img, 1) # 1 for horizontal
+        
+        ret, buf = cv2.imencode('.jpg', img)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('flip_h_output.jpg', content)
+        
+    return redirect('canvas')
+
+def flip_vertical(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+    
+    if img is not None:
+        img = cv2.flip(img, 0) # 0 for vertical
+        
+        ret, buf = cv2.imencode('.jpg', img)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('flip_v_output.jpg', content)
+        
+    return redirect('canvas')
+
+def contrast_boost(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        # Increase contrast: alpha > 1
+        alpha = 1.25
+        beta = 0
+        img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
+
+        ret, buf = cv2.imencode('.jpg', img)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('contrast_boost.jpg', content)
+
+    return redirect('canvas')
+
+def contrast_reduce(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        # Decrease contrast: alpha < 1
+        alpha = 0.8
+        beta = 0
+        img = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)
+
+        ret, buf = cv2.imencode('.jpg', img)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('contrast_reduce.jpg', content)
+
+    return redirect('canvas')
+
+def filter_sepia(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        img_sepia = np.array(img, dtype=np.float64) # converting to float to prevent loss
+        img_sepia = cv2.transform(img_sepia, np.matrix([[0.272, 0.534, 0.131],
+                                                        [0.349, 0.686, 0.168],
+                                                        [0.393, 0.769, 0.189]])) # Multiplying image with special sepia matrix
+        img_sepia[np.where(img_sepia > 255)] = 255 # Normalizing values greater than 255 to 255
+        img_sepia = np.array(img_sepia, dtype=np.uint8)
+        
+        ret, buf = cv2.imencode('.jpg', img_sepia)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('sepia.jpg', content)
+
+    return redirect('canvas')
+
+def filter_sharpen(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
+        img = cv2.filter2D(img, -1, kernel)
+        
+        ret, buf = cv2.imencode('.jpg', img)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('sharpen.jpg', content)
+
+    return redirect('canvas')
+
+def filter_sketch(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        # Convert to gray
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # Invert
+        inv = cv2.bitwise_not(gray)
+        # Gaussian Blur
+        blur = cv2.GaussianBlur(inv, (21, 21), 0)
+        # Invert blur
+        inv_blur = cv2.bitwise_not(blur)
+        # Sketch
+        sketch = cv2.divide(gray, inv_blur, scale=256.0)
+        
+        ret, buf = cv2.imencode('.jpg', sketch)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('sketch.jpg', content)
+
+    return redirect('canvas')
+
+def filter_vignette(request):
+    object = SelectedImage.objects.get(user=request.user)
+    img_name = object.editImage.name
+    media_url = settings.MEDIA_ROOT.replace('\\', "/")
+    img = cv2.imread(media_url + '/' + img_name)
+
+    if img is not None:
+        rows, cols = img.shape[:2]
+        kernel_x = cv2.getGaussianKernel(cols, 200)
+        kernel_y = cv2.getGaussianKernel(rows, 200)
+        kernel = kernel_y * kernel_x.T
+        mask = 255 * kernel / np.linalg.norm(kernel)
+        output = np.copy(img)
+        
+        for i in range(3):
+            output[:,:,i] = output[:,:,i] * mask
+
+        ret, buf = cv2.imencode('.jpg', output)
+        content = ContentFile(buf.tobytes())
+        object.editImage.save('vignette.jpg', content)
+
+    return redirect('canvas')
+
+def add_text(request):
+    if request.method == 'POST':
+        try:
+            object = SelectedImage.objects.get(user=request.user)
+            img_name = object.editImage.name
+            media_url = settings.MEDIA_ROOT.replace('\\', "/")
+            img = cv2.imread(media_url + '/' + img_name)
+
+            text = request.POST.get('text', '')
+            if img is not None and text:
+                # Default settings for now
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                # Calculate scale based on image size to make text visible
+                scale = img.shape[0] / 1000.0 * 2 
+                color = (255, 255, 255) # White
+                thickness = max(1, int(scale * 2))
+                
+                # Center text for simplicity or fixed position
+                text_size = cv2.getTextSize(text, font, scale, thickness)[0]
+                text_x = int((img.shape[1] - text_size[0]) / 2)
+                text_y = int((img.shape[0] + text_size[1]) / 2)
+
+                cv2.putText(img, text, (text_x, text_y), font, scale, color, thickness, cv2.LINE_AA)
+                
+                ret, buf = cv2.imencode('.jpg', img)
+                content = ContentFile(buf.tobytes())
+                object.editImage.save('text_overlay.jpg', content)
+        except Exception as e:
+            print(f"Error adding text: {e}")
+            pass
+            
     return redirect('canvas')
