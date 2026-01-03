@@ -1,57 +1,48 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Online Image Editor</title>
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% block title %}Login - Online Image Editor{% endblock %}
 
-    <!-- Custom CSS -->
-    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% block extra_css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2 class="text-center mb-4"><i class="fas fa-sign-in-alt"></i> Sign In</h2>
 
-<body>
-
-    <div class="login-container">
-        <h2>Sign In</h2>
-
-        <div class="alert-info-custom">
-            <h5><i class="fas fa-info-circle"></i> Demo Credentials:</h5>
-            <h5>Username: pstu <br> Password: pstu</h5>
+        <div class="alert alert-info" role="alert">
+            <h6 class="alert-heading"><i class="fas fa-info-circle"></i> Demo Credentials:</h6>
+            <p class="mb-0 small">Username: <strong>pstu</strong><br> Password: <strong>pstu</strong></p>
         </div>
 
         {% if form.errors %}
-        <div class="alert-message">
-            <i class="fas fa-exclamation-triangle"></i> Invalid username or password.
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <div>Invalid username or password.</div>
         </div>
         {% endif %}
 
         <form action="{% url 'login' %}?next={% url 'home' %}" method="post">
             {% csrf_token %}
 
-            <div class="input-box">
-                <input type="text" name="username" required>
-                <label>Username</label>
+            <div class="form-floating text-muted">
+                <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username"
+                    required>
+                <label for="floatingInput">Username</label>
             </div>
 
-            <div class="input-box">
-                <input type="password" name="password" required>
-                <label>Password</label>
+            <div class="form-floating text-muted">
+                <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password"
+                    required>
+                <label for="floatingPassword">Password</label>
             </div>
 
-            <button type="submit" class="btn-submit">
+            <button type="submit" class="btn btn-primary w-100 btn-lg">
                 Login
             </button>
-
         </form>
     </div>
-
-</body>
-
-</html>
+</div>
+{% endblock %}

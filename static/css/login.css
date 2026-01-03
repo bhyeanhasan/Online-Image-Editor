@@ -7,11 +7,7 @@ body {
     background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
 @keyframes gradientBG {
@@ -129,4 +125,31 @@ body {
 .alert-info-custom h5 {
     margin: 0;
     font-size: 1em;
+}
+
+/* New Layout Styles */
+.login-wrapper {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.login-card h2 {
+    color: #333;
+}
+
+.form-floating {
+    margin-bottom: 20px;
 }

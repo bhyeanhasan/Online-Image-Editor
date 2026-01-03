@@ -1,100 +1,97 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas - Online Image Editor</title>
+{% block title %}Canvas - Online Image Editor{% endblock %}
 
-    <!-- Bootstrap CSS (for grid/utilities if needed, but we rely mostly on custom CSS) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+{% block extra_css %}
+<link href="{% static 'css/canvas.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+{% endblock %}
 
-    <!-- Custom CSS -->
-    <link href="{% static 'css/canvas.css' %}" rel="stylesheet">
+{% block content %}
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- Cropper.js CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-</head>
-
-<body>
-
-    <!-- Navbar/Toolbar -->
-    <nav class="custom-navbar">
-        <a class="brand-logo" href="/"><i class="fas fa-magic"></i> Image Editor</a>
-
-        <div class="toolbar-actions">
-            <!-- New Image -->
-            <a href="/" class="tool-btn"><i class="far fa-folder-open"></i> New</a>
-
-            <!-- Undo -->
-            <a href="{% url 'undo' %}" class="tool-btn"><i class="fas fa-undo"></i> Undo</a>
-
-            <!-- Save -->
-            <a href="{{ obg.editImage.url }}" download class="tool-btn primary"><i class="far fa-save"></i> Save</a>
+<!-- Toolbar -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm">
+            <div class="d-flex gap-2">
+                <a href="/" class="btn btn-outline-secondary btn-sm"><i class="far fa-folder-open"></i> New</a>
+                <a href="{% url 'undo' %}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-undo"></i> Undo</a>
+            </div>
+            <div>
+                <a href="{{ obg.editImage.url }}" download class="btn btn-primary btn-sm"><i class="far fa-save"></i>
+                    Save Image</a>
+            </div>
         </div>
-    </nav>
+    </div>
+</div>
 
-    <div class="canvas-wrapper">
+<div class="row">
 
-        <!-- Sidebar Tools -->
-        <aside class="sidebar">
+    <!-- Left Sidebar (Tools) -->
+    <div class="col-lg-3 col-md-4 mb-4">
 
-            <!-- Essentials: Rotate & Flip -->
+        <!-- Rotate & Flip -->
+        <div class="sidebar-card sidebar-section">
             <h5>Essentials</h5>
-            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-                <a class="tool-btn" href="{% url 'rotate_left' %}" title="Rotate Left"
-                    style="flex:1; justify-content:center;"><i class="fas fa-undo"></i></a>
-                <a class="tool-btn" href="{% url 'rotate_right' %}" title="Rotate Right"
-                    style="flex:1; justify-content:center;"><i class="fas fa-redo"></i></a>
-            </div>
-            <div style="display: flex; gap: 5px; margin-bottom: 15px;">
-                <a class="tool-btn" href="{% url 'flip_horizontal' %}" title="Flip Horizontal"
-                    style="flex:1; justify-content:center;"><i class="fas fa-arrows-alt-h"></i></a>
-                <a class="tool-btn" href="{% url 'flip_vertical' %}" title="Flip Vertical"
-                    style="flex:1; justify-content:center;"><i class="fas fa-arrows-alt-v"></i></a>
-            </div>
-
-
-            <!-- Adjustments -->
-            <h5>Adjustments</h5>
-            <div class="dropdown">
-                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
-                    <i class="fas fa-sliders-h"></i> Brightness & Contrast
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'add_bright' %}"><i class="fas fa-plus"></i> Brightness</a>
-                    <a class="dropdown-item" href="{% url 'remove_bright' %}"><i class="fas fa-minus"></i>
-                        Brightness</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'contrast_boost' %}"><i class="fas fa-adjust"></i> Boost
-                        Contrast</a>
-                    <a class="dropdown-item" href="{% url 'contrast_reduce' %}"><i class="fas fa-adjust"></i> Reduce
-                        Contrast</a>
+            <div class="row g-2 mb-2">
+                <div class="col-6">
+                    <a class="tool-btn text-center" href="{% url 'rotate_left' %}" title="Rotate Left">
+                        <i class="fas fa-undo"></i> Left
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a class="tool-btn text-center" href="{% url 'rotate_right' %}" title="Rotate Right">
+                        <i class="fas fa-redo"></i> Right
+                    </a>
                 </div>
             </div>
+            <div class="row g-2">
+                <div class="col-6">
+                    <a class="tool-btn text-center" href="{% url 'flip_horizontal' %}" title="Flip Horizontal">
+                        <i class="fas fa-arrows-alt-h"></i> Flip H
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a class="tool-btn text-center" href="{% url 'flip_vertical' %}" title="Flip Vertical">
+                        <i class="fas fa-arrows-alt-v"></i> Flip V
+                    </a>
+                </div>
+            </div>
+        </div>
 
-            <!-- Dynamic Crop -->
-            <button id="btn-start-crop" class="sidebar-item tool-btn"
-                style="width:100%; justify-content: flex-start; background: transparent; border: none;">
-                <i class="fas fa-crop-alt"></i> Crop Mode
-            </button>
-
-            <div id="crop-controls"
-                style="display:none; padding:10px; background:rgba(0,0,0,0.2); border-radius:5px; margin-top:5px;">
-                <button id="btn-crop-confirm" class="tool-btn primary"
-                    style="width:100%; justify-content:center; margin-bottom:5px;">
-                    <i class="fas fa-check"></i> Apply Crop
+        <!-- Adjustments -->
+        <div class="sidebar-card sidebar-section">
+            <h5>Adjustments</h5>
+            <div class="dropdown d-grid mb-2">
+                <button class="btn btn-light dropdown-toggle text-start border" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-sliders-h"></i> Brightness/Contrast
                 </button>
-                <button id="btn-crop-cancel" class="tool-btn"
-                    style="width:100%; justify-content:center; background:#ef4444;">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
+                <ul class="dropdown-menu w-100">
+                    <li><a class="dropdown-item" href="{% url 'add_bright' %}"><i class="fas fa-plus"></i>
+                            Brightness</a></li>
+                    <li><a class="dropdown-item" href="{% url 'remove_bright' %}"><i class="fas fa-minus"></i>
+                            Brightness</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'contrast_boost' %}"><i class="fas fa-adjust"></i> Boost
+                            Contrast</a></li>
+                    <li><a class="dropdown-item" href="{% url 'contrast_reduce' %}"><i class="fas fa-adjust"></i> Reduce
+                            Contrast</a></li>
+                </ul>
             </div>
 
+            <!-- Crop -->
+            <button id="btn-start-crop" class="tool-btn w-100 mb-2">
+                <i class="fas fa-crop-alt"></i> Crop Mode
+            </button>
+            <div id="crop-controls" style="display:none;" class="p-2 bg-light border rounded">
+                <button id="btn-crop-confirm" class="btn btn-success btn-sm w-100 mb-2"><i class="fas fa-check"></i>
+                    Apply</button>
+                <button id="btn-crop-cancel" class="btn btn-danger btn-sm w-100"><i class="fas fa-times"></i>
+                    Cancel</button>
+            </div>
             <!-- Hidden form for custom crop -->
             <form id="crop-form" action="{% url 'custom_crop' %}" method="post" style="display:none;">
                 {% csrf_token %}
@@ -103,152 +100,151 @@
                 <input type="hidden" name="width" id="crop-width">
                 <input type="hidden" name="height" id="crop-height">
             </form>
+        </div>
 
-            <!-- Resize Section -->
-            <h5>Resize</h5>
-            <form action="resize" method="post" class="sidebar-section">
-                {% csrf_token %}
-                <input type="number" name="width" placeholder="Width" class="custom-input" required>
-                <input type="number" name="height" placeholder="Height" class="custom-input" required>
-                <button type="submit" class="tool-btn primary"
-                    style="width: 100%; justify-content: center; margin-top: 5px;">
-                    Resize
-                </button>
-            </form>
-
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-
-
-
-
-            <!-- Filters -->
+        <!-- Filters -->
+        <div class="sidebar-card sidebar-section">
             <h5>Filters</h5>
-            <div class="dropdown">
-                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
-                    <i class="fas fa-magic"></i> Creative Filters
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'gray' %}">Grayscale</a>
-                    <a class="dropdown-item" href="{% url 'filter_sepia' %}">Sepia</a>
-                    <a class="dropdown-item" href="{% url 'filter_sketch' %}">Pencil Sketch</a>
-                    <a class="dropdown-item" href="{% url 'negative' %}">Negative</a>
-                    <a class="dropdown-item" href="{% url 'filter_vignette' %}">Vignette</a>
-                    <a class="dropdown-item" href="{% url 'filter_sharpen' %}">Sharpen</a>
+            <div class="d-grid gap-2">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle text-start border w-100" type="button"
+                        data-bs-toggle="dropdown">
+                        <i class="fas fa-magic"></i> Creative
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item" href="{% url 'gray' %}">Grayscale</a></li>
+                        <li><a class="dropdown-item" href="{% url 'filter_sepia' %}">Sepia</a></li>
+                        <li><a class="dropdown-item" href="{% url 'filter_sketch' %}">Pencil Sketch</a></li>
+                        <li><a class="dropdown-item" href="{% url 'negative' %}">Negative</a></li>
+                        <li><a class="dropdown-item" href="{% url 'filter_vignette' %}">Vignette</a></li>
+                        <li><a class="dropdown-item" href="{% url 'filter_sharpen' %}">Sharpen</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle text-start border w-100" type="button"
+                        data-bs-toggle="dropdown">
+                        <i class="fas fa-tint"></i> Blur
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item" href="{% url 'GaussianBlur' %}">Gaussian Blur</a></li>
+                        <li><a class="dropdown-item" href="{% url 'medianBlur' %}">Median Blur</a></li>
+                        <li><a class="dropdown-item" href="{% url 'meanfilter' %}">Mean Filter</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle text-start border w-100" type="button"
+                        data-bs-toggle="dropdown">
+                        <i class="fas fa-project-diagram"></i> Edges
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item" href="{% url 'detect_edge' %}">Canny Edge</a></li>
+                        <li><a class="dropdown-item" href="{% url 'midpoint_filter' %}">Midpoint Filter</a></li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div class="dropdown">
-                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
-                    <i class="fas fa-tint"></i> Blur & Smooth
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'GaussianBlur' %}">Gaussian Blur</a>
-                    <a class="dropdown-item" href="{% url 'medianBlur' %}">Median Blur</a>
-                    <a class="dropdown-item" href="{% url 'meanfilter' %}">Mean Filter</a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <a class="sidebar-item dropdown-toggle" href="#" data-toggle="dropdown">
-                    <i class="fas fa-project-diagram"></i> Edge Detection
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'detect_edge' %}">Canny Edge</a>
-                    <a class="dropdown-item" href="{% url 'midpoint_filter' %}">Midpoint Filter</a>
-                </div>
-            </div>
-
-            <!-- Text Overlay -->
-            <h5>Add Text</h5>
-            <form action="{% url 'add_text' %}" method="post" class="sidebar-section">
+        <!-- Resize -->
+        <div class="sidebar-card sidebar-section">
+            <h5>Resize</h5>
+            <form action="resize" method="post">
                 {% csrf_token %}
-                <input type="text" name="text" placeholder="Enter text..." class="custom-input" required>
-                <button type="submit" class="tool-btn"
-                    style="width: 100%; justify-content: center; margin-top: 5px; background: #4f46e5;">
-                    <i class="fas fa-font"></i> Add Text
-                </button>
+                <div class="input-group mb-2">
+                    <input type="number" name="width" class="form-control form-control-sm" placeholder="W" required>
+                    <span class="input-group-text">x</span>
+                    <input type="number" name="height" class="form-control form-control-sm" placeholder="H" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm w-100">Resize</button>
             </form>
+        </div>
 
-        </aside>
-
-        <!-- Main Canvas -->
-        <main class="main-canvas">
-            <img id="image-canvas" src="{{ obg.editImage.url }}" alt="Edited Image" style="max-width: 100%;">
-        </main>
-
-        <!-- Right Panel (Original & Stats) -->
-        <aside class="right-panel">
-            {% if obg.editImage %}
-            <div class="panel-card">
-                <h4>Original</h4>
-                <img src="{{ obg.image.url }}" alt="Original Image">
-                <p>Compare with source</p>
-            </div>
-            {% endif %}
-
-            <div class="panel-card">
-                <h4>Dimensions</h4>
-                <p>Height: {{ x }} px</p>
-                <p>Width: {{ y }} px</p>
-            </div>
-        </aside>
+        <!-- Text Overlay -->
+        <div class="sidebar-card sidebar-section">
+            <h5>Add Text</h5>
+            <form action="{% url 'add_text' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-2">
+                    <input type="text" name="text" class="form-control form-control-sm" placeholder="Enter text..."
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm w-100">Add Text</button>
+            </form>
+        </div>
 
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Main Content (Canvas) -->
+    <div class="col-lg-7 col-md-8 mb-4">
+        <div class="main-canvas-area">
+            <img id="image-canvas" src="{{ obg.editImage.url }}" alt="Edited Image">
+        </div>
+    </div>
 
-    <!-- Cropper.js JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <!-- Right Sidebar (Original & Info) -->
+    <div class="col-lg-2 d-none d-lg-block">
+        {% if obg.editImage %}
+        <div class="sidebar-card">
+            <h6 class="text-muted mb-2">Original</h6>
+            <div class="right-panel">
+                <img style="max-width: 100%;" src="{{ obg.image.url }}" alt="Original Image">
+            </div>
+        </div>
+        {% endif %}
+        <div class="sidebar-card">
+            <h6 class="text-muted mb-2">Dimensions</h6>
+            <p class="mb-1 small"><strong>Width:</strong> {{ y }} px</p>
+            <p class="mb-0 small"><strong>Height:</strong> {{ x }} px</p>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const image = document.getElementById('image-canvas');
-            const startCropBtn = document.getElementById('btn-start-crop');
-            const confirmCropBtn = document.getElementById('btn-crop-confirm');
-            const cancelCropBtn = document.getElementById('btn-crop-cancel');
-            const cropControls = document.getElementById('crop-controls');
-            let cropper;
+</div>
 
-            startCropBtn.addEventListener('click', function () {
-                if (cropper) {
-                    return;
-                }
+{% endblock %}
 
-                cropControls.style.display = 'block';
-                startCropBtn.style.display = 'none';
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const image = document.getElementById('image-canvas');
+        const startCropBtn = document.getElementById('btn-start-crop');
+        const confirmCropBtn = document.getElementById('btn-crop-confirm');
+        const cancelCropBtn = document.getElementById('btn-crop-cancel');
+        const cropControls = document.getElementById('crop-controls');
+        let cropper;
 
-                cropper = new Cropper(image, {
-                    aspectRatio: NaN, // Free crop
-                    viewMode: 1,
-                });
-            });
+        startCropBtn.addEventListener('click', function () {
+            if (cropper) return;
 
-            cancelCropBtn.addEventListener('click', function () {
-                if (cropper) {
-                    cropper.destroy();
-                    cropper = null;
-                }
-                cropControls.style.display = 'none';
-                startCropBtn.style.display = 'flex';
-            });
+            cropControls.style.display = 'block';
+            startCropBtn.style.display = 'none';
 
-            confirmCropBtn.addEventListener('click', function () {
-                if (!cropper) return;
-
-                const data = cropper.getData();
-
-                document.getElementById('crop-x').value = Math.round(data.x);
-                document.getElementById('crop-y').value = Math.round(data.y);
-                document.getElementById('crop-width').value = Math.round(data.width);
-                document.getElementById('crop-height').value = Math.round(data.height);
-
-                document.getElementById('crop-form').submit();
+            cropper = new Cropper(image, {
+                aspectRatio: NaN,
+                viewMode: 1,
             });
         });
-    </script>
-</body>
 
-</html>
+        cancelCropBtn.addEventListener('click', function () {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            cropControls.style.display = 'none';
+            startCropBtn.style.display = 'block';
+        });
+
+        confirmCropBtn.addEventListener('click', function () {
+            if (!cropper) return;
+
+            const data = cropper.getData();
+            document.getElementById('crop-x').value = Math.round(data.x);
+            document.getElementById('crop-y').value = Math.round(data.y);
+            document.getElementById('crop-width').value = Math.round(data.width);
+            document.getElementById('crop-height').value = Math.round(data.height);
+
+            document.getElementById('crop-form').submit();
+        });
+    });
+</script>
+{% endblock %}

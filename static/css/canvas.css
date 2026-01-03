@@ -165,7 +165,7 @@ body {
 
 /* Right Panel (Preview/Stats) */
 .right-panel {
-    width: 250px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -223,6 +223,88 @@ body {
     color: white !important;
 }
 
-.dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
+
+/* Components moved from inline styles */
+.toolbar-container {
+    background-color: white;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.sidebar-section h5 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* Tool buttons styling reused/extended */
+.tool-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    transition: all 0.2s;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tool-btn:hover {
+    background: #e9ecef;
+    text-decoration: none;
+    color: #000;
+}
+
+.tool-btn.primary {
+    background: #0d6efd;
+    color: white;
+    border: none;
+}
+
+.tool-btn.primary:hover {
+    background: #0b5ed7;
+    color: white;
+}
+
+.main-canvas-area {
+    background: #e9ecef;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.main-canvas-area img {
+    max-width: 100%;
+    max-height: 80vh;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Right Panel overrides */
+.right-panel img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
 }
